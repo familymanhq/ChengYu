@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对牛弹琴</title>
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+Wen+Kai:wght@400;700&family=Ma+Shan+Zheng&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f5ee; /* Warm cream paper background */
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a; /* Ink black */
+            --text-secondary: #7f8c8d; /* Grey for pinyin and subtitle */
+            --accent-red: #c0392b; /* Crimson red */
+            --accent-ochre: #d35400;
+            --border-color: #e5e0d3;
+            --shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden; /* Prevent scrolling on desktop/iPad viewport */
+        }
+
+        /* Sticky Top Navigation */
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(247, 245, 238, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 24px;
+            box-sizing: border-box;
+            gap: 12px;
+            height: auto;
+        }
+
+        .nav-back-btn {
+            position: absolute;
+            left: 24px;
+            top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back-btn:hover {
+            color: var(--accent-red);
+        }
+
+        .nav-title {
+            font-family: 'LXGW Wen Kai', serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: var(--text-primary);
+        }
+
+        .nav-pinyin {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-left: 6px;
+        }
+
+        /* Language Toggle pill selector */
+        .toggle-container {
+            display: flex;
+            background: #e8e4d9;
+            padding: 3px;
+            border-radius: 30px;
+            border: 1px solid #dcd8cc;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .toggle-btn.active {
+            background: #ffffff;
+            color: var(--text-primary);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .nav-controls-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Bottom Page Navigation Controls */
+        .bottom-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 12px 24px;
+            background: rgba(247, 245, 238, 0.95);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid var(--border-color);
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .bottom-controls .control-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            color: var(--text-primary);
+            transition: all 0.25s ease;
+        }
+
+        .bottom-controls .control-btn:hover {
+            background: var(--bg-color);
+            color: var(--accent-red);
+            transform: scale(1.05);
+        }
+
+        .bottom-controls .control-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Book Layout Container - fits viewport exactly */
+        .book-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 2000px;
+            height: calc(100vh - 200px); /* Adjust for nav and bottom controls */
+            margin: 10px auto;
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .book {
+            position: relative;
+            height: 92%;
+            aspect-ratio: 1.42 / 1; /* Classic physical book aspect ratio */
+            max-width: 90vw;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
+        }
+
+        /* Spine Crease shadow overlay when book is open */
+        .book.open::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0.07) 0%, 
+                rgba(0,0,0,0.02) 20%, 
+                rgba(0,0,0,0.14) 50%, 
+                rgba(0,0,0,0.02) 80%, 
+                rgba(0,0,0,0.07) 100%
+            );
+            z-index: 105;
+            pointer-events: none;
+        }
+
+        /* Paper sheet / leaf */
+        .paper {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            padding: 35px;
+            backface-visibility: hidden;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+        }
+
+        .front {
+            border-radius: 0 12px 12px 0;
+            box-shadow: inset -12px 0 20px rgba(0,0,0,0.03), 3px 6px 15px rgba(0,0,0,0.04);
+            z-index: 2;
+        }
+
+        .back {
+            border-radius: 12px 0 0 12px;
+            box-shadow: inset 12px 0 20px rgba(0,0,0,0.03), -3px 6px 15px rgba(0,0,0,0.04);
+            transform: rotateY(180deg);
+        }
+
+        /* Flipped state */
+        .paper.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Cover Page Full-bleed Layout */
+        .cover-front {
+            padding: 0 !important;
+            overflow: hidden !important;
+            position: relative;
+            background: #f7f5ee;
+        }
+
+        .cover-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .cover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 50px 30px;
+            box-sizing: border-box;
+            background: linear-gradient(to bottom, 
+                rgba(247, 245, 238, 0.85) 0%, 
+                rgba(247, 245, 238, 0.4) 40%, 
+                rgba(247, 245, 238, 0) 80%
+            );
+        }
+
+        .cover-title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .cover-pinyin {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #5d6d7e;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.95);
+            margin: 0;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .cover-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3.8rem;
+            color: #1a1a1a; /* Calligraphic ink black */
+            margin: 0;
+            font-weight: normal;
+            text-shadow: 0 2px 5px rgba(255, 255, 255, 0.9);
+            letter-spacing: 4px;
+        }
+
+        .cover-translation {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #555555;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.95);
+            margin: 0;
+            font-style: italic;
+            line-height: 1.3;
+        }
+
+        /* Back Cover Style */
+        .back-cover-content {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-image: url('images/01_dui_niu_tan_qin/01_back_cover.png');\n            background-size: cover;\n            background-position: center;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .traditional-seal {
+            font-family: 'Ma Shan Zheng', cursive; /* Stamp/seal script */
+            font-weight: normal;
+            font-size: 1.5rem;
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 4px 10px;
+            margin-top: 25px;
+            letter-spacing: 2px;
+            border-radius: 4px;
+            transform: rotate(-3deg);
+            background-color: transparent;
+        }
+
+        /* Content Pages Layout */
+        .image-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-content img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Selective Full-bleed watercolor styles for left story pages (p1-p6 back) */
+        .paper:not(#p7):not(#p8) .back {
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            overflow: hidden !important;
+            box-shadow: none !important;
+        }
+
+        .paper:not(#p7):not(#p8) .back .image-content {
+            width: 100%;
+            height: 100%;
+        }
+
+        .paper:not(#p7):not(#p8) .back .image-content img {
+            width: 100%;
+            height: 100%;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        /* Clean white layout for right story pages (p2-p7 front) */
+        .paper:not(#p1):not(#p8) .front {
+            background-color: #ffffff !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 0 !important; /* Let text-content handle padding */
+        }
+
+        .paper:not(#p1):not(#p8) .text-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center vertically to distribute space safely */
+            padding: 50px 32px 30px 32px; /* Comfortably centered with more top breathing room */
+            box-sizing: border-box;
+        }
+
+        .text-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .beat-label {
+            display: none !important; /* Completely hide section labels on story pages */
+        }
+
+        .lang-en {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #2c3e50;
+            line-height: 1.65;
+            font-family: 'Nunito', sans-serif;
+            margin-bottom: 28px; /* Slightly more space before bilingual block */
+        }
+
+        .story-bilingual {
+            display: flex;
+            flex-direction: column;
+            gap: 36px; /* Clear paragraph spacing */
+        }
+
+        .story-paragraph {
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 12px;      /* Vertical spacing between wrapped lines of character+pinyin */
+            column-gap: 6px;    /* Horizontal spacing between phrases */
+        }
+
+        /* Bilingual Display Styles */
+        .sentence-pair {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 0;
+            white-space: nowrap;
+        }
+
+        .lang-cn {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #1a1a1a; /* Chinese is bold, dark ink black */
+            font-family: 'LXGW Wen Kai', serif; /* Modern serif Chinese font */
+            line-height: 1.35;
+            text-align: center;
+        }
+
+        .lang-py {
+            font-size: 0.9rem;
+            color: #7f8c8d; /* Noticeably smaller size and soft gray pinyin */
+            font-style: normal;
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.2;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        /* Final calligraphic idiom styling */
+        #p7 .story-bilingual .story-paragraph:last-child {
+            justify-content: center;
+            width: 100%;
+            margin-top: 14px;
+        }
+
+        #p7 .story-bilingual .story-paragraph:last-child .lang-cn {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: 3.2rem; /* Larger calligraphic style */
+            font-weight: normal;
+            color: var(--accent-red);
+            line-height: 1.2;
+            margin-top: 6px;
+        }
+
+        #p7 .story-bilingual .story-paragraph:last-child .lang-py {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* Table and Idiom page styles */
+        h2 {
+            font-family: 'LXGW Wen Kai', serif;
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 0.88rem;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #fcfcfc;
+            font-weight: 600;
+        }
+
+        .idiom-table td:first-child {
+            font-weight: bold;
+            color: var(--accent-red);
+            width: 32%;
+        }
+
+        /* Editorial Idiom details grid */
+        .idiom-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 16px;
+            margin: 10px 0 15px 0;
+        }
+
+        .idiom-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .idiom-detail-label {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            color: #7f8c8d;
+        }
+
+        .idiom-detail-value {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .idiom-detail-value.char-value {
+            font-family: 'LXGW Wen Kai', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        /* Callout Card Block for Examples */
+        .example-quote-container {
+            position: relative;
+            background: #fdfbf7;
+            border: 1px solid rgba(211, 84, 0, 0.12);
+            padding: 14px 16px 14px 20px;
+            border-radius: 12px;
+            margin-top: 12px;
+            box-sizing: border-box;
+        }
+
+        .quote-mark {
+            position: absolute;
+            left: 8px;
+            top: -2px;
+            font-size: 2.8rem;
+            font-family: 'Ma Shan Zheng', cursive;
+            color: rgba(211, 84, 0, 0.12);
+            line-height: 1;
+            user-select: none;
+        }
+
+        .example-quote-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-ochre);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* Timeline Layout for Story Spine */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 15px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-badge {
+            position: absolute;
+            left: -30px;
+            top: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e8e4d9;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 2px solid var(--card-bg);
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        .timeline-content strong {
+            font-family: 'LXGW Wen Kai', serif;
+            color: #2c3e50;
+            font-size: 0.98rem;
+            font-weight: 700;
+        }
+
+        .timeline-content p {
+            margin: 2px 0 0 0;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        /* Floating controls removed since they are moved to fixed bottom controls */
+
+        /* Responsive Styles for Mobile */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                overflow: auto; /* Allow scrolling on phone */
+            }
+            
+            .sticky-nav {
+                padding: 15px 15px;
+                flex-direction: column;
+                gap: 12px;
+                height: auto;
+                position: static; /* Disable sticky on mobile for scroll layout */
+            }
+            
+            .nav-back-btn {
+                position: static;
+                margin-bottom: 4px;
+            }
+            
+            .nav-title {
+                font-size: 1.15rem;
+                text-align: center;
+            }
+            
+            .nav-pinyin {
+                font-size: 0.85rem;
+                display: block; /* Wrap pinyin on mobile */
+                margin-left: 0;
+                margin-top: 4px;
+            }
+            
+            .nav-controls-group {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+                width: 100%;
+            }
+
+            .bottom-controls {
+                display: none; /* Hide bottom controls on mobile scroll layout */
+            }
+
+            .paper:not(#p7):not(#p8) .back {
+                height: 380px !important; /* Give story images a solid height on mobile scroll view */
+                position: relative !important;
+            }
+
+            .book-container {
+                perspective: none;
+                height: auto;
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            .book {
+                width: 100%;
+                height: auto;
+                transform: none !important;
+                transform-style: flat;
+                max-width: 100%;
+                aspect-ratio: auto;
+            }
+
+            .book.open::after {
+                display: none;
+            }
+
+            .paper {
+                position: static;
+                width: 100% !important;
+                height: auto !important;
+                transform: none !important;
+                cursor: default;
+                display: block;
+                margin-bottom: 25px;
+            }
+
+            .front,
+            .back {
+                position: relative;
+                width: 100% !important;
+                height: auto !important;
+                transform: none !important;
+                backface-visibility: visible;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+                border-radius: 12px;
+                padding: 20px;
+                border: 1px solid var(--border-color);
+                margin-bottom: 12px;
+                overflow-y: visible;
+            }
+
+            .back {
+                margin-bottom: 0;
+            }
+
+            .cover-front {
+                height: 480px !important;
+                position: relative !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav">
+        <a href="../" class="nav-back-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Library</span>
+        </a>
+
+        <div class="nav-title-container">
+            <span class="nav-title">对牛弹琴 <span class="nav-pinyin">(duì niú tán qín)</span></span>
+        </div>
+        <div class="nav-controls-group">
+            <div class="toggle-container">
+                <button class="toggle-btn" data-mode="english" onclick="setLanguageMode('english')">English</button>
+                <button class="toggle-btn" data-mode="chinese" onclick="setLanguageMode('chinese')">中文</button>
+                <button class="toggle-btn" data-mode="chinese-pinyin" onclick="setLanguageMode('chinese-pinyin')">中文 + 拼音</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3D Book Container -->
+    <div class="book-container">
+
+        <div class="book" id="book">
+            <!-- Leaf 1: Cover / Beat 1 Image -->
+            <div class="paper" id="p1">
+                <div class="front cover-front">
+                    <img class="cover-bg" src="images/01_dui_niu_tan_qin/01_cover.png" alt="Book Cover">
+                    <div class="cover-overlay">
+                        <div class="cover-title-group">
+                            <div class="cover-pinyin">Duì Niú Tán Qín</div>
+                            <h1 class="cover-title">对牛弹琴</h1>
+                            <div class="cover-translation">Playing Music to a Cow</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="image-content">
+                        <img src="images/01_dui_niu_tan_qin/01_beat1.png" alt="Story Beat 1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 2: Beat 1 Text / Beat 2 Image -->
+            <div class="paper" id="p2">
+                <div class="front">
+                    <div class="text-content">
+                        <div class="lang-en">Once there was a musician named Gong Mingyi. He could play the most beautiful music in the whole land.<br>When he played his lute, birds would stop to listen, and even the wind grew quiet.</div>
+                        <div class="story-bilingual">
+                            <div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Cóngqián,</div><div class="lang-cn">从前，</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
+    <div class="sentence-pair"><div class="lang-py">yīgè</div><div class="lang-cn">一个</div></div>
+    <div class="sentence-pair"><div class="lang-py">yīnyuèjiā,</div><div class="lang-cn">音乐家，</div></div>
+    <div class="sentence-pair"><div class="lang-py">míng</div><div class="lang-cn">名</div></div>
+    <div class="sentence-pair"><div class="lang-py">jiào</div><div class="lang-cn">叫</div></div>
+    <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
+    <div class="sentence-pair"><div class="lang-py">Míngyí.</div><div class="lang-cn">明仪。</div></div>
+    <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">qínshēng</div><div class="lang-cn">琴声</div></div>
+    <div class="sentence-pair"><div class="lang-py">shì</div><div class="lang-cn">是</div></div>
+    <div class="sentence-pair"><div class="lang-py">quán</div><div class="lang-cn">全</div></div>
+    <div class="sentence-pair"><div class="lang-py">tiānxià</div><div class="lang-cn">天下</div></div>
+    <div class="sentence-pair"><div class="lang-py">zuì</div><div class="lang-cn">最</div></div>
+    <div class="sentence-pair"><div class="lang-py">měi</div><div class="lang-cn">美</div></div>
+    <div class="sentence-pair"><div class="lang-py">de.</div><div class="lang-cn">的。</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Měi</div><div class="lang-cn">每</div></div>
+    <div class="sentence-pair"><div class="lang-py">dāng</div><div class="lang-cn">当</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán</div><div class="lang-cn">弹</div></div>
+    <div class="sentence-pair"><div class="lang-py">qín,</div><div class="lang-cn">琴，</div></div>
+    <div class="sentence-pair"><div class="lang-py">xiǎoniǎo</div><div class="lang-cn">小鸟</div></div>
+    <div class="sentence-pair"><div class="lang-py">huì</div><div class="lang-cn">会</div></div>
+    <div class="sentence-pair"><div class="lang-py">tíng</div><div class="lang-cn">停</div></div>
+    <div class="sentence-pair"><div class="lang-py">xià</div><div class="lang-cn">下</div></div>
+    <div class="sentence-pair"><div class="lang-py">lái</div><div class="lang-cn">来</div></div>
+    <div class="sentence-pair"><div class="lang-py">língtīng,</div><div class="lang-cn">聆听，</div></div>
+    <div class="sentence-pair"><div class="lang-py">lián</div><div class="lang-cn">连</div></div>
+    <div class="sentence-pair"><div class="lang-py">fēng</div><div class="lang-cn">风</div></div>
+    <div class="sentence-pair"><div class="lang-py">yě</div><div class="lang-cn">也</div></div>
+    <div class="sentence-pair"><div class="lang-py">biàn</div><div class="lang-cn">变</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">得</div></div>
+    <div class="sentence-pair"><div class="lang-py">ānjìng</div><div class="lang-cn">安静</div></div>
+    <div class="sentence-pair"><div class="lang-py">le.</div><div class="lang-cn">了。</div></div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="image-content">
+                        <img src="images/01_dui_niu_tan_qin/01_beat2.png" alt="Story Beat 2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 3: Beat 2 Text / Beat 3 Image -->
+            <div class="paper" id="p3">
+                <div class="front">
+                    <div class="text-content">
+                        <div class="lang-en">Every day, Gong Mingyi played his lute for anyone who would listen: fishermen by the river, children playing in the fields, and merchants in the busy market.<br>Everyone stopped to smile and clap.</div>
+                        <div class="story-bilingual">
+                            <div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Měi</div><div class="lang-cn">每</div></div>
+    <div class="sentence-pair"><div class="lang-py">tiān,</div><div class="lang-cn">天，</div></div>
+    <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
+    <div class="sentence-pair"><div class="lang-py">Míngyí</div><div class="lang-cn">明仪</div></div>
+    <div class="sentence-pair"><div class="lang-py">dōu</div><div class="lang-cn">都</div></div>
+    <div class="sentence-pair"><div class="lang-py">huì</div><div class="lang-cn">会</div></div>
+    <div class="sentence-pair"><div class="lang-py">wèi</div><div class="lang-cn">为</div></div>
+    <div class="sentence-pair"><div class="lang-py">yuànyì</div><div class="lang-cn">愿意</div></div>
+    <div class="sentence-pair"><div class="lang-py">língtīng</div><div class="lang-cn">聆听</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">rén</div><div class="lang-cn">人</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán</div><div class="lang-cn">弹</div></div>
+    <div class="sentence-pair"><div class="lang-py">qín:</div><div class="lang-cn">琴：</div></div>
+    <div class="sentence-pair"><div class="lang-py">hé</div><div class="lang-cn">河</div></div>
+    <div class="sentence-pair"><div class="lang-py">biān</div><div class="lang-cn">边</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">yúfū,</div><div class="lang-cn">渔夫 、</div></div>
+    <div class="sentence-pair"><div class="lang-py">tiányě</div><div class="lang-cn">田野</div></div>
+    <div class="sentence-pair"><div class="lang-py">lǐ</div><div class="lang-cn">里</div></div>
+    <div class="sentence-pair"><div class="lang-py">wánshuǎ</div><div class="lang-cn">玩耍</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">háizi,</div><div class="lang-cn">孩子，</div></div>
+    <div class="sentence-pair"><div class="lang-py">hái</div><div class="lang-cn">还</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
+    <div class="sentence-pair"><div class="lang-py">rènào</div><div class="lang-cn">热闹</div></div>
+    <div class="sentence-pair"><div class="lang-py">jíshì</div><div class="lang-cn">集市</div></div>
+    <div class="sentence-pair"><div class="lang-py">lǐ</div><div class="lang-cn">里</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">shāngrén.</div><div class="lang-cn">商人。</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Dàjiā</div><div class="lang-cn">大家</div></div>
+    <div class="sentence-pair"><div class="lang-py">dōu</div><div class="lang-cn">都</div></div>
+    <div class="sentence-pair"><div class="lang-py">huì</div><div class="lang-cn">会</div></div>
+    <div class="sentence-pair"><div class="lang-py">tíng</div><div class="lang-cn">停</div></div>
+    <div class="sentence-pair"><div class="lang-py">xià</div><div class="lang-cn">下</div></div>
+    <div class="sentence-pair"><div class="lang-py">lái</div><div class="lang-cn">来</div></div>
+    <div class="sentence-pair"><div class="lang-py">wēixiào,</div><div class="lang-cn">微笑</div></div>
+    <div class="sentence-pair"><div class="lang-py">gǔzhǎng.</div><div class="lang-cn">、鼓掌。</div></div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="image-content">
+                        <img src="images/01_dui_niu_tan_qin/01_beat3.png" alt="Story Beat 3">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 4: Beat 3 Text / Beat 4 Image -->
+            <div class="paper" id="p4">
+                <div class="front">
+                    <div class="text-content">
+                        <div class="lang-en">Until one day, Gong Mingyi walked past a big yellow cow grazing alone in a quiet meadow.<br>“A new audience!” he thought, his eyes lighting up. He sat down in the grass and began to play his very best song.</div>
+                        <div class="story-bilingual">
+                            <div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Zhídào</div><div class="lang-cn">直到</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
+    <div class="sentence-pair"><div class="lang-py">yī</div><div class="lang-cn">一</div></div>
+    <div class="sentence-pair"><div class="lang-py">tiān,</div><div class="lang-cn">天，</div></div>
+    <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
+    <div class="sentence-pair"><div class="lang-py">Míngyí</div><div class="lang-cn">明仪</div></div>
+    <div class="sentence-pair"><div class="lang-py">lùguò</div><div class="lang-cn">路过</div></div>
+    <div class="sentence-pair"><div class="lang-py">yí</div><div class="lang-cn">一</div></div>
+    <div class="sentence-pair"><div class="lang-py">piàn</div><div class="lang-cn">片</div></div>
+    <div class="sentence-pair"><div class="lang-py">ānjìng</div><div class="lang-cn">安静</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">cǎodì,</div><div class="lang-cn">草地，</div></div>
+    <div class="sentence-pair"><div class="lang-py">kànjiàn</div><div class="lang-cn">看见</div></div>
+    <div class="sentence-pair"><div class="lang-py">yì</div><div class="lang-cn">一</div></div>
+    <div class="sentence-pair"><div class="lang-py">tóu</div><div class="lang-cn">头</div></div>
+    <div class="sentence-pair"><div class="lang-py">dà</div><div class="lang-cn">大</div></div>
+    <div class="sentence-pair"><div class="lang-py">huángniú</div><div class="lang-cn">黄牛</div></div>
+    <div class="sentence-pair"><div class="lang-py">zhèngzài</div><div class="lang-cn">正在</div></div>
+    <div class="sentence-pair"><div class="lang-py">dúzì</div><div class="lang-cn">独自</div></div>
+    <div class="sentence-pair"><div class="lang-py">chī</div><div class="lang-cn">吃</div></div>
+    <div class="sentence-pair"><div class="lang-py">cǎo.</div><div class="lang-cn">草。</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">“Xīn</div><div class="lang-cn">“新</div></div>
+    <div class="sentence-pair"><div class="lang-py">tīngzhòng!”</div><div class="lang-cn">听众！”</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">xīn</div><div class="lang-cn">心</div></div>
+    <div class="sentence-pair"><div class="lang-py">xiǎng,</div><div class="lang-cn">想，</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǎnjīng</div><div class="lang-cn">眼睛</div></div>
+    <div class="sentence-pair"><div class="lang-py">yí</div><div class="lang-cn">一</div></div>
+    <div class="sentence-pair"><div class="lang-py">liàng.</div><div class="lang-cn">亮。</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">zuò</div><div class="lang-cn">坐</div></div>
+    <div class="sentence-pair"><div class="lang-py">zài</div><div class="lang-cn">在</div></div>
+    <div class="sentence-pair"><div class="lang-py">cǎodì</div><div class="lang-cn">草地</div></div>
+    <div class="sentence-pair"><div class="lang-py">shàng,</div><div class="lang-cn">上，</div></div>
+    <div class="sentence-pair"><div class="lang-py">kāishǐ</div><div class="lang-cn">开始</div></div>
+    <div class="sentence-pair"><div class="lang-py">tánzòu</div><div class="lang-cn">弹奏</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">zuì</div><div class="lang-cn">最</div></div>
+    <div class="sentence-pair"><div class="lang-py">náshǒu</div><div class="lang-cn">拿手</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">qǔzi.</div><div class="lang-cn">曲子。</div></div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="image-content">
+                        <img src="images/01_dui_niu_tan_qin/01_beat4.png" alt="Story Beat 4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 5: Beat 4 Text / Beat 5 Image -->
+            <div class="paper" id="p5">
+                <div class="front">
+                    <div class="text-content">
+                        <div class="lang-en">Because of that, Gong Mingyi played and played and played. He played fast songs. He played slow songs. He played happy songs, sad songs, and songs about the moon.<br>But the cow never looked up. It just kept chewing grass (<em>munch, munch, munch</em>) and swishing its tail (<em>swish, swish, swish</em>).</div>
+                        <div class="story-bilingual">
+                            <div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Yīncǐ,</div><div class="lang-cn">因此，</div></div>
+    <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
+    <div class="sentence-pair"><div class="lang-py">Míngyí</div><div class="lang-cn">明仪</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán</div><div class="lang-cn">弹</div></div>
+    <div class="sentence-pair"><div class="lang-py">le</div><div class="lang-cn">了</div></div>
+    <div class="sentence-pair"><div class="lang-py">yòu</div><div class="lang-cn">又</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán,</div><div class="lang-cn">弹，</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán</div><div class="lang-cn">弹</div></div>
+    <div class="sentence-pair"><div class="lang-py">le</div><div class="lang-cn">了</div></div>
+    <div class="sentence-pair"><div class="lang-py">yòu</div><div class="lang-cn">又</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán.</div><div class="lang-cn">弹。</div></div>
+    <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">tánzòu</div><div class="lang-cn">弹奏</div></div>
+    <div class="sentence-pair"><div class="lang-py">huānkuài</div><div class="lang-cn">欢快</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">qǔzi,</div><div class="lang-cn">曲子，</div></div>
+    <div class="sentence-pair"><div class="lang-py">tánzòu</div><div class="lang-cn">弹奏</div></div>
+    <div class="sentence-pair"><div class="lang-py">huǎnmàn</div><div class="lang-cn">缓慢</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">qǔzi,</div><div class="lang-cn">曲子，</div></div>
+    <div class="sentence-pair"><div class="lang-py">tánzòu</div><div class="lang-cn">弹奏</div></div>
+    <div class="sentence-pair"><div class="lang-py">kuàilè</div><div class="lang-cn">快乐</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">gē,</div><div class="lang-cn">歌</div></div>
+    <div class="sentence-pair"><div class="lang-py">bēishāng</div><div class="lang-cn">、悲伤</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">gē,</div><div class="lang-cn">歌，</div></div>
+    <div class="sentence-pair"><div class="lang-py">hái</div><div class="lang-cn">还</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
+    <div class="sentence-pair"><div class="lang-py">guānyú</div><div class="lang-cn">关于</div></div>
+    <div class="sentence-pair"><div class="lang-py">yuèliàng</div><div class="lang-cn">月亮</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">gē.</div><div class="lang-cn">歌。</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Kěshì</div><div class="lang-cn">可是</div></div>
+    <div class="sentence-pair"><div class="lang-py">nà</div><div class="lang-cn">那</div></div>
+    <div class="sentence-pair"><div class="lang-py">tóu</div><div class="lang-cn">头</div></div>
+    <div class="sentence-pair"><div class="lang-py">niú</div><div class="lang-cn">牛</div></div>
+    <div class="sentence-pair"><div class="lang-py">cónglái</div><div class="lang-cn">从来</div></div>
+    <div class="sentence-pair"><div class="lang-py">méiyǒu</div><div class="lang-cn">没有</div></div>
+    <div class="sentence-pair"><div class="lang-py">tái</div><div class="lang-cn">抬</div></div>
+    <div class="sentence-pair"><div class="lang-py">qǐ</div><div class="lang-cn">起</div></div>
+    <div class="sentence-pair"><div class="lang-py">tóu.</div><div class="lang-cn">头。</div></div>
+    <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn">它</div></div>
+    <div class="sentence-pair"><div class="lang-py">zhǐshì</div><div class="lang-cn">只是</div></div>
+    <div class="sentence-pair"><div class="lang-py">jìxù</div><div class="lang-cn">继续</div></div>
+    <div class="sentence-pair"><div class="lang-py">jiáocǎo</div><div class="lang-cn">嚼草</div></div>
+    <div class="sentence-pair"><div class="lang-py">(jiáo,</div><div class="lang-cn">（嚼，</div></div>
+    <div class="sentence-pair"><div class="lang-py">jiáo,</div><div class="lang-cn">嚼，</div></div>
+    <div class="sentence-pair"><div class="lang-py">jiáo),</div><div class="lang-cn">嚼），</div></div>
+    <div class="sentence-pair"><div class="lang-py">shuǎizhe</div><div class="lang-cn">甩着</div></div>
+    <div class="sentence-pair"><div class="lang-py">wěibā</div><div class="lang-cn">尾巴</div></div>
+    <div class="sentence-pair"><div class="lang-py">(shuǎi,</div><div class="lang-cn">（甩，</div></div>
+    <div class="sentence-pair"><div class="lang-py">shuǎi,</div><div class="lang-cn">甩，</div></div>
+    <div class="sentence-pair"><div class="lang-py">shuǎi).</div><div class="lang-cn">甩）。</div></div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="image-content">
+                        <img src="images/01_dui_niu_tan_qin/01_beat5.png" alt="Story Beat 5">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 6: Beat 5 Text / Beat 6 Image -->
+            <div class="paper" id="p6">
+                <div class="front">
+                    <div class="text-content">
+                        <div class="lang-en">Until finally, Gong Mingyi set down his lute. He looked at the cow. The cow blinked at him slowly.<br>And then, he understood.<br>The cow wasn't being rude. The cow wasn't ignoring him.<br>The cow simply <em>could not</em> understand music at all.</div>
+                        <div class="story-bilingual">
+                            <div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Zuìzhōng,</div><div class="lang-cn">最终，</div></div>
+    <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
+    <div class="sentence-pair"><div class="lang-py">Míngyí</div><div class="lang-cn">明仪</div></div>
+    <div class="sentence-pair"><div class="lang-py">fàngxià</div><div class="lang-cn">放下</div></div>
+    <div class="sentence-pair"><div class="lang-py">le</div><div class="lang-cn">了</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">qín.</div><div class="lang-cn">琴。</div></div>
+    <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">kànzhe</div><div class="lang-cn">看着</div></div>
+    <div class="sentence-pair"><div class="lang-py">nà</div><div class="lang-cn">那</div></div>
+    <div class="sentence-pair"><div class="lang-py">tóu</div><div class="lang-cn">头</div></div>
+    <div class="sentence-pair"><div class="lang-py">niú.</div><div class="lang-cn">牛。</div></div>
+    <div class="sentence-pair"><div class="lang-py">Niú</div><div class="lang-cn">牛</div></div>
+    <div class="sentence-pair"><div class="lang-py">mànmān</div><div class="lang-cn">慢慢</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">地</div></div>
+    <div class="sentence-pair"><div class="lang-py">zhǎ</div><div class="lang-cn">眨</div></div>
+    <div class="sentence-pair"><div class="lang-py">le</div><div class="lang-cn">了</div></div>
+    <div class="sentence-pair"><div class="lang-py">zhǎ</div><div class="lang-cn">眨</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǎnjīng</div><div class="lang-cn">眼睛</div></div>
+    <div class="sentence-pair"><div class="lang-py">kànzhe</div><div class="lang-cn">看着</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā.</div><div class="lang-cn">他。</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Zhè</div><div class="lang-cn">这</div></div>
+    <div class="sentence-pair"><div class="lang-py">shí,</div><div class="lang-cn">时，</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā</div><div class="lang-cn">他</div></div>
+    <div class="sentence-pair"><div class="lang-py">zhōngyú</div><div class="lang-cn">终于</div></div>
+    <div class="sentence-pair"><div class="lang-py">míngbái</div><div class="lang-cn">明白</div></div>
+    <div class="sentence-pair"><div class="lang-py">le:</div><div class="lang-cn">了：</div></div>
+    <div class="sentence-pair"><div class="lang-py">Niú</div><div class="lang-cn">牛</div></div>
+    <div class="sentence-pair"><div class="lang-py">búshì</div><div class="lang-cn">不是</div></div>
+    <div class="sentence-pair"><div class="lang-py">zài</div><div class="lang-cn">在</div></div>
+    <div class="sentence-pair"><div class="lang-py">wúlǐ,</div><div class="lang-cn">无礼，</div></div>
+    <div class="sentence-pair"><div class="lang-py">yě</div><div class="lang-cn">也</div></div>
+    <div class="sentence-pair"><div class="lang-py">búshì</div><div class="lang-cn">不是</div></div>
+    <div class="sentence-pair"><div class="lang-py">gùyì</div><div class="lang-cn">故意</div></div>
+    <div class="sentence-pair"><div class="lang-py">bùlǐ</div><div class="lang-cn">不理</div></div>
+    <div class="sentence-pair"><div class="lang-py">tā,</div><div class="lang-cn">他，</div></div>
+    <div class="sentence-pair"><div class="lang-py">érshì</div><div class="lang-cn">而是</div></div>
+    <div class="sentence-pair"><div class="lang-py">nà</div><div class="lang-cn">那</div></div>
+    <div class="sentence-pair"><div class="lang-py">tóu</div><div class="lang-cn">头</div></div>
+    <div class="sentence-pair"><div class="lang-py">niú</div><div class="lang-cn">牛</div></div>
+    <div class="sentence-pair"><div class="lang-py">gēnběn</div><div class="lang-cn">根本</div></div>
+    <div class="sentence-pair"><div class="lang-py">jiù</div><div class="lang-cn">就</div></div>
+    <div class="sentence-pair"><div class="lang-py">tīng</div><div class="lang-cn">听</div></div>
+    <div class="sentence-pair"><div class="lang-py">bù</div><div class="lang-cn">不</div></div>
+    <div class="sentence-pair"><div class="lang-py">dǒng</div><div class="lang-cn">懂</div></div>
+    <div class="sentence-pair"><div class="lang-py">yīnyuè.</div><div class="lang-cn">音乐。</div></div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="image-content">
+                        <img src="images/01_dui_niu_tan_qin/01_beat6.png" alt="Story Beat 6">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 7: Beat 6 Text / Idiom Details -->
+            <div class="paper" id="p7">
+                <div class="front">
+                    <div class="text-content">
+                        <div class="lang-en">And ever since then, when someone tries very hard to share something they love (their music, their ideas, or their dreams) with someone who simply cannot understand, people smile and say:<br><br><strong>对牛弹琴</strong><br><em>(duì niú tán qín)</em><br><br><em>Playing music to a cow.</em></div>
+                        <div class="story-bilingual">
+                            <div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Cóng</div><div class="lang-cn">从</div></div>
+    <div class="sentence-pair"><div class="lang-py">nà</div><div class="lang-cn">那</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǐhòu,</div><div class="lang-cn">以后，</div></div>
+    <div class="sentence-pair"><div class="lang-py">dāng</div><div class="lang-cn">当</div></div>
+    <div class="sentence-pair"><div class="lang-py">yǒurén</div><div class="lang-cn">有人</div></div>
+    <div class="sentence-pair"><div class="lang-py">nǔlì</div><div class="lang-cn">努力</div></div>
+    <div class="sentence-pair"><div class="lang-py">fēnxiǎng</div><div class="lang-cn">分享</div></div>
+    <div class="sentence-pair"><div class="lang-py">zìjǐ</div><div class="lang-cn">自己</div></div>
+    <div class="sentence-pair"><div class="lang-py">xǐhuān</div><div class="lang-cn">喜欢</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">dōngxi,</div><div class="lang-cn">东西，</div></div>
+    <div class="sentence-pair"><div class="lang-py">bǐrú</div><div class="lang-cn">比如</div></div>
+    <div class="sentence-pair"><div class="lang-py">tāmen</div><div class="lang-cn">他们</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">yīnyuè,</div><div class="lang-cn">音乐</div></div>
+    <div class="sentence-pair"><div class="lang-py">xiǎngfǎ</div><div class="lang-cn">、想法</div></div>
+    <div class="sentence-pair"><div class="lang-py">huò</div><div class="lang-cn">或</div></div>
+    <div class="sentence-pair"><div class="lang-py">mèngxiǎng,</div><div class="lang-cn">梦想，</div></div>
+    <div class="sentence-pair"><div class="lang-py">què</div><div class="lang-cn">却</div></div>
+    <div class="sentence-pair"><div class="lang-py">pèngshàng</div><div class="lang-cn">碰上</div></div>
+    <div class="sentence-pair"><div class="lang-py">le</div><div class="lang-cn">了</div></div>
+    <div class="sentence-pair"><div class="lang-py">yígè</div><div class="lang-cn">一个</div></div>
+    <div class="sentence-pair"><div class="lang-py">gēnběn</div><div class="lang-cn">根本</div></div>
+    <div class="sentence-pair"><div class="lang-py">tīng</div><div class="lang-cn">听</div></div>
+    <div class="sentence-pair"><div class="lang-py">bù</div><div class="lang-cn">不</div></div>
+    <div class="sentence-pair"><div class="lang-py">dǒng</div><div class="lang-cn">懂</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">rén,</div><div class="lang-cn">人，</div></div>
+    <div class="sentence-pair"><div class="lang-py">dàjiā</div><div class="lang-cn">大家</div></div>
+    <div class="sentence-pair"><div class="lang-py">jiù</div><div class="lang-cn">就</div></div>
+    <div class="sentence-pair"><div class="lang-py">huì</div><div class="lang-cn">会</div></div>
+    <div class="sentence-pair"><div class="lang-py">wēixiàozhe</div><div class="lang-cn">微笑着</div></div>
+    <div class="sentence-pair"><div class="lang-py">shuō：</div><div class="lang-cn">说：</div></div>
+</div>
+<div class="story-paragraph">
+    <div class="sentence-pair"><div class="lang-py">Duì</div><div class="lang-cn">对</div></div>
+    <div class="sentence-pair"><div class="lang-py">niú</div><div class="lang-cn">牛</div></div>
+    <div class="sentence-pair"><div class="lang-py">tán</div><div class="lang-cn">弹</div></div>
+    <div class="sentence-pair"><div class="lang-py">qín.</div><div class="lang-cn">琴</div></div>
+</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="text-content" style="justify-content: flex-start; padding: 24px;">
+                        <h2>The Idiom / 成语解释</h2>
+                        
+                        <div class="idiom-details-grid">
+                            <div class="idiom-detail-item">
+                                <div class="idiom-detail-label">Characters</div>
+                                <div class="idiom-detail-value char-value">对牛弹琴</div>
+                            </div>
+                            <div class="idiom-detail-item">
+                                <div class="idiom-detail-label">Pinyin</div>
+                                <div class="idiom-detail-value" style="font-size: 1.1rem; font-weight: 600; padding-top: 4px;">duì niú tán qín</div>
+                            </div>
+                            <div class="idiom-detail-item" style="grid-column: span 2;">
+                                <div class="idiom-detail-label">Literal Meaning</div>
+                                <div class="idiom-detail-value">Playing the lute to a cow</div>
+                            </div>
+                            <div class="idiom-detail-item" style="grid-column: span 2;">
+                                <div class="idiom-detail-label">What it means</div>
+                                <div class="idiom-detail-value" style="font-size: 0.92rem; line-height: 1.4;">Sharing something with the wrong audience — someone who can't appreciate it</div>
+                            </div>
+                        </div>
+
+                        <div class="example-quote-container">
+                            <span class="quote-mark">“</span>
+                            <span class="example-quote-label">Use it in a sentence / 例句</span>
+                            <p style="font-size: 0.95rem; margin: 0 0 8px 0; font-weight: 600; color: var(--text-primary); line-height: 1.4;">
+                                <em>Talking about your favorite book to someone who never reads is like 对牛弹琴.</em>
+                            </p>
+                            <p class="lang-py" style="font-size: 0.85rem; margin: 0 0 4px 0; color: var(--text-secondary); font-style: italic;">
+                                <em>(Gēn yī gè bù ài dú shū de rén tán nǐ zuì xǐhuān de shū, jiǎnzhí shì duì niú tán qín.)</em>
+                            </p>
+                            <p class="lang-cn" style="font-size: 1.15rem; margin: 0; font-weight: 700; color: var(--text-primary); line-height: 1.4;">
+                                跟一个不爱读书的人谈你最喜欢的书，简直是<span style="color: var(--accent-red);">对牛弹琴</span>。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaf 8: Story Spine / Back Cover -->
+            <div class="paper" id="p8">
+                <div class="front">
+                    <div class="text-content" style="justify-content: flex-start; padding: 24px;">
+                        <h2>The Story Spine / 故事大纲</h2>
+                        <div class="timeline">
+                                                        <div class="timeline-item">
+                                <div class="timeline-badge">1</div>
+                                <div class="timeline-content">
+                                    <strong>Once there was…</strong>
+                                    <p>A musician who played the most beautiful music in the land.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-badge">2</div>
+                                <div class="timeline-content">
+                                    <strong>Every day…</strong>
+                                    <p>He played for anyone who would listen — and everyone loved it.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-badge">3</div>
+                                <div class="timeline-content">
+                                    <strong>Until one day…</strong>
+                                    <p>He found a new audience: a cow grazing alone in a meadow.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-badge">4</div>
+                                <div class="timeline-content">
+                                    <strong>Because of that…</strong>
+                                    <p>He played his very best songs — and the cow just kept chewing grass.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-badge">5</div>
+                                <div class="timeline-content">
+                                    <strong>Until finally…</strong>
+                                    <p>He understood: the cow wasn't being rude — it simply couldn't understand music.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-badge">6</div>
+                                <div class="timeline-content">
+                                    <strong>And ever since then…</strong>
+                                    <p>We say 对牛弹琴 — "playing music to a cow" — whenever something is shared with the wrong audience.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="back-cover-content">
+                        <!-- Clean full-bleed back cover image -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Page Controls -->
+    <div class="bottom-controls">
+        <button class="control-btn" id="prev-btn" onclick="goPrev()" title="Previous Page (Left Arrow)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </button>
+        <button class="control-btn" id="next-btn" onclick="goNext()" title="Next Page (Right Arrow)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Language Toggle Logic
+        function setLanguageMode(mode) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-mode') === mode);
+            });
+            
+            const elementsEn = document.querySelectorAll('.lang-en');
+            const elementsBilingual = document.querySelectorAll('.story-bilingual');
+            const elementsPy = document.querySelectorAll('.lang-py');
+            
+            if (mode === 'english') {
+                elementsEn.forEach(el => el.style.display = 'block');
+                elementsBilingual.forEach(el => el.style.display = 'none');
+            } else if (mode === 'chinese') {
+                elementsEn.forEach(el => el.style.display = 'none');
+                elementsBilingual.forEach(el => el.style.display = 'block');
+                elementsPy.forEach(el => el.style.display = 'none');
+            } else if (mode === 'chinese-pinyin') {
+                elementsEn.forEach(el => el.style.display = 'none');
+                elementsBilingual.forEach(el => el.style.display = 'block');
+                elementsPy.forEach(el => el.style.display = 'block');
+            }
+            
+            localStorage.setItem('chengyu-reader-lang', mode);
+        }
+
+        // Book 3D Turn Logic
+        const totalPapers = 8;
+        let currentPaper = 1;
+        const papers = [];
+        
+        for (let i = 1; i <= totalPapers; i++) {
+            papers.push(document.getElementById(`p${i}`));
+        }
+
+        let transitionTimeout;
+
+        function updateBook(transitioningPaper = null) {
+            const book = document.getElementById('book');
+            
+            // Adjust book container translation depending on whether it is open or closed
+            if (currentPaper === 1) {
+                book.style.transform = 'translateX(25%)';
+            } else if (currentPaper === totalPapers + 1) {
+                book.style.transform = 'translateX(-25%)';
+            } else {
+                book.style.transform = 'translateX(0%)';
+            }
+
+            // Add center binding spine shadow when open
+            if (currentPaper > 1 && currentPaper <= totalPapers) {
+                book.classList.add('open');
+            } else {
+                book.classList.remove('open');
+            }
+
+            // Set classes and dynamic static z-indices
+            for (let i = 1; i <= totalPapers; i++) {
+                const paper = papers[i - 1];
+                if (i < currentPaper) {
+                    paper.classList.add('flipped');
+                    if (paper !== transitioningPaper) {
+                        paper.style.zIndex = i;
+                    }
+                } else {
+                    paper.classList.remove('flipped');
+                    if (paper !== transitioningPaper) {
+                        paper.style.zIndex = totalPapers - i + 1;
+                    }
+                }
+            }
+
+            // Handle temporary high z-index during transition to prevent page clipping
+            if (transitioningPaper) {
+                transitioningPaper.style.zIndex = 100;
+                if (transitionTimeout) clearTimeout(transitionTimeout);
+                transitionTimeout = setTimeout(() => {
+                    for (let i = 1; i <= totalPapers; i++) {
+                        const paper = papers[i - 1];
+                        if (i < currentPaper) {
+                            paper.style.zIndex = i;
+                        } else {
+                            paper.style.zIndex = totalPapers - i + 1;
+                        }
+                    }
+                }, 800);
+            }
+
+            // Update nav controls disabled status
+            document.getElementById('prev-btn').disabled = (currentPaper === 1);
+            document.getElementById('next-btn').disabled = (currentPaper === totalPapers + 1);
+        }
+
+        function goNext() {
+            if (currentPaper <= totalPapers) {
+                const paper = papers[currentPaper - 1];
+                currentPaper++;
+                updateBook(paper);
+            }
+        }
+
+        function goPrev() {
+            if (currentPaper > 1) {
+                const paper = papers[currentPaper - 2];
+                currentPaper--;
+                updateBook(paper);
+            }
+        }
+
+        // Setup page click triggers (click right page to go forward, left page to go back)
+        papers.forEach((paper, idx) => {
+            paper.addEventListener('click', (e) => {
+                // Skip if clicking interactive elements like tables, links, buttons, scrollbars
+                if (e.target.closest('button') || e.target.closest('a') || e.target.closest('table') || e.target.closest('.sentence-box')) {
+                    return;
+                }
+                
+                // Check if screen is mobile (scrolling layout) - disable 3D flip triggers
+                if (window.innerWidth <= 768) {
+                    return;
+                }
+
+                if (paper.classList.contains('flipped')) {
+                    goPrev();
+                } else {
+                    goNext();
+                }
+            });
+        });
+
+        // Setup keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (window.innerWidth > 768) {
+                if (e.key === 'ArrowLeft') {
+                    goPrev();
+                } else if (e.key === 'ArrowRight') {
+                    goNext();
+                }
+            }
+        });
+
+        // Initialize state on DOM load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedMode = localStorage.getItem('chengyu-reader-lang') || 'chinese-pinyin';
+            setLanguageMode(savedMode);
+            updateBook();
+        });
+    </script>
+</body>
+</html>
