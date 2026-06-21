@@ -380,37 +380,63 @@
             box-shadow: none !important;
         }
 
-        .paper:not(#p7):not(#p8) .back .image-content {
-            width: 100%;
-            height: 100%;
+        /* Double-page spread styles */
+        .spread-left {
+            background-size: 200% 100% !important;
+            background-position: left center !important;
+            background-repeat: no-repeat !important;
         }
 
-        .paper:not(#p7):not(#p8) .back .image-content img {
-            width: 100%;
-            height: 100%;
-            max-width: 100% !important;
-            max-height: 100% !important;
-            object-fit: cover !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
+        .spread-right {
+            background-size: 200% 100% !important;
+            background-position: right center !important;
+            background-repeat: no-repeat !important;
+            position: relative;
         }
 
-        /* Clean white layout for right story pages (p2-p7 front) */
+        /* Clean full-bleed layout for right story pages (p2-p7 front) */
         .paper:not(#p1):not(#p8) .front {
-            background-color: #ffffff !important;
             border: none !important;
             border-radius: 0 !important;
             box-shadow: none !important;
-            padding: 0 !important; /* Let text-content handle padding */
+            padding: 0 !important;
+        }
+
+        /* Story Text Overlays on top of the right spread */
+        .story-overlay {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }
+
+        .story-overlay.pos-bottom {
+            bottom: 0;
+            padding: 50px 32px 30px 32px;
+            background: linear-gradient(to top, 
+                rgba(247, 245, 238, 0.98) 0%, 
+                rgba(247, 245, 238, 0.85) 65%, 
+                rgba(247, 245, 238, 0) 100%
+            );
+        }
+
+        .story-overlay.pos-top {
+            top: 0;
+            padding: 50px 32px 50px 32px;
+            background: linear-gradient(to bottom, 
+                rgba(247, 245, 238, 0.98) 0%, 
+                rgba(247, 245, 238, 0.85) 65%, 
+                rgba(247, 245, 238, 0) 100%
+            );
         }
 
         .paper:not(#p1):not(#p8) .text-content {
-            height: 100%;
+            height: auto !important;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center vertically to distribute space safely */
-            padding: 50px 32px 30px 32px; /* Comfortably centered with more top breathing room */
+            justify-content: center;
+            padding: 0 !important; /* Managed by story-overlay */
             box-sizing: border-box;
         }
 
@@ -710,6 +736,22 @@
                 position: relative !important;
             }
 
+            .spread-left {
+                background-size: cover !important;
+                background-position: center !important;
+            }
+
+            .spread-right {
+                background-image: none !important;
+                background-color: #ffffff !important;
+            }
+
+            .story-overlay {
+                position: static !important;
+                background: none !important;
+                padding: 0 !important;
+            }
+
             .book-container {
                 perspective: none;
                 height: auto;
@@ -806,20 +848,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="images/01_dui_niu_tan_qin/01_beat1.png" alt="Story Beat 1">
-                    </div>
+                <div class="back spread-left" style="background-image: url('images/01_dui_niu_tan_qin/01_beat1.png');">
                 </div>
             </div>
 
             <!-- Leaf 2: Beat 1 Text / Beat 2 Image -->
             <div class="paper" id="p2">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">Once there was a musician named Gong Mingyi. He could play the most beautiful music in the whole land.<br>When he played his lute, birds would stop to listen, and even the wind grew quiet.</div>
-                        <div class="story-bilingual">
-                            <div class="story-paragraph">
+                <div class="front spread-right" style="background-image: url('images/01_dui_niu_tan_qin/01_beat1.png');">
+                    <div class="story-overlay pos-bottom">
+                        <div class="text-content">
+                            <div class="lang-en">Once there was a musician named Gong Mingyi. He could play the most beautiful music in the whole land.<br>When he played his lute, birds would stop to listen, and even the wind grew quiet.</div>
+                            <div class="story-bilingual">
+                                <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Cóngqián,</div><div class="lang-cn">从前，</div></div>
     <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
     <div class="sentence-pair"><div class="lang-py">yīgè</div><div class="lang-cn">一个</div></div>
@@ -858,23 +898,22 @@
     <div class="sentence-pair"><div class="lang-py">ānjìng</div><div class="lang-cn">安静</div></div>
     <div class="sentence-pair"><div class="lang-py">le.</div><div class="lang-cn">了。</div></div>
 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="images/01_dui_niu_tan_qin/01_beat2.png" alt="Story Beat 2">
-                    </div>
+                <div class="back spread-left" style="background-image: url('images/01_dui_niu_tan_qin/01_beat2.png');">
                 </div>
             </div>
 
             <!-- Leaf 3: Beat 2 Text / Beat 3 Image -->
             <div class="paper" id="p3">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">Every day, Gong Mingyi played his lute for anyone who would listen: fishermen by the river, children playing in the fields, and merchants in the busy market.<br>Everyone stopped to smile and clap.</div>
-                        <div class="story-bilingual">
-                            <div class="story-paragraph">
+                <div class="front spread-right" style="background-image: url('images/01_dui_niu_tan_qin/01_beat2.png');">
+                    <div class="story-overlay pos-bottom">
+                        <div class="text-content">
+                            <div class="lang-en">Every day, Gong Mingyi played his lute for anyone who would listen: fishermen by the river, children playing in the fields, and merchants in the busy market.<br>Everyone stopped to smile and clap.</div>
+                            <div class="story-bilingual">
+                                <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Měi</div><div class="lang-cn">每</div></div>
     <div class="sentence-pair"><div class="lang-py">tiān,</div><div class="lang-cn">天，</div></div>
     <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
@@ -915,23 +954,22 @@
     <div class="sentence-pair"><div class="lang-py">wēixiào,</div><div class="lang-cn">微笑</div></div>
     <div class="sentence-pair"><div class="lang-py">gǔzhǎng.</div><div class="lang-cn">、鼓掌。</div></div>
 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="images/01_dui_niu_tan_qin/01_beat3.png" alt="Story Beat 3">
-                    </div>
+                <div class="back spread-left" style="background-image: url('images/01_dui_niu_tan_qin/01_beat3.png');">
                 </div>
             </div>
 
             <!-- Leaf 4: Beat 3 Text / Beat 4 Image -->
             <div class="paper" id="p4">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">Until one day, Gong Mingyi walked past a big yellow cow grazing alone in a quiet meadow.<br>“A new audience!” he thought, his eyes lighting up. He sat down in the grass and began to play his very best song.</div>
-                        <div class="story-bilingual">
-                            <div class="story-paragraph">
+                <div class="front spread-right" style="background-image: url('images/01_dui_niu_tan_qin/01_beat3.png');">
+                    <div class="story-overlay pos-top">
+                        <div class="text-content">
+                            <div class="lang-en">Until one day, Gong Mingyi walked past a big yellow cow grazing alone in a quiet meadow.<br>“A new audience!” he thought, his eyes lighting up. He sat down in the grass and began to play his very best song.</div>
+                            <div class="story-bilingual">
+                                <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Zhídào</div><div class="lang-cn">直到</div></div>
     <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
     <div class="sentence-pair"><div class="lang-py">yī</div><div class="lang-cn">一</div></div>
@@ -978,23 +1016,22 @@
     <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
     <div class="sentence-pair"><div class="lang-py">qǔzi.</div><div class="lang-cn">曲子。</div></div>
 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="images/01_dui_niu_tan_qin/01_beat4.png" alt="Story Beat 4">
-                    </div>
+                <div class="back spread-left" style="background-image: url('images/01_dui_niu_tan_qin/01_beat4.png');">
                 </div>
             </div>
 
             <!-- Leaf 5: Beat 4 Text / Beat 5 Image -->
             <div class="paper" id="p5">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">Because of that, Gong Mingyi played and played and played. He played fast songs. He played slow songs. He played happy songs, sad songs, and songs about the moon.<br>But the cow never looked up. It just kept chewing grass (<em>munch, munch, munch</em>) and swishing its tail (<em>swish, swish, swish</em>).</div>
-                        <div class="story-bilingual">
-                            <div class="story-paragraph">
+                <div class="front spread-right" style="background-image: url('images/01_dui_niu_tan_qin/01_beat4.png');">
+                    <div class="story-overlay pos-top">
+                        <div class="text-content">
+                            <div class="lang-en">Because of that, Gong Mingyi played and played and played. He played fast songs. He played slow songs. He played happy songs, sad songs, and songs about the moon.<br>But the cow never looked up. It just kept chewing grass (<em>munch, munch, munch</em>) and swishing its tail (<em>swish, swish, swish</em>).</div>
+                            <div class="story-bilingual">
+                                <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Yīncǐ,</div><div class="lang-cn">因此，</div></div>
     <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
     <div class="sentence-pair"><div class="lang-py">Míngyí</div><div class="lang-cn">明仪</div></div>
@@ -1052,23 +1089,22 @@
     <div class="sentence-pair"><div class="lang-py">shuǎi,</div><div class="lang-cn">甩，</div></div>
     <div class="sentence-pair"><div class="lang-py">shuǎi).</div><div class="lang-cn">甩）。</div></div>
 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="images/01_dui_niu_tan_qin/01_beat5.png" alt="Story Beat 5">
-                    </div>
+                <div class="back spread-left" style="background-image: url('images/01_dui_niu_tan_qin/01_beat5.png');">
                 </div>
             </div>
 
             <!-- Leaf 6: Beat 5 Text / Beat 6 Image -->
             <div class="paper" id="p6">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">Until finally, Gong Mingyi set down his lute. He looked at the cow. The cow blinked at him slowly.<br>And then, he understood.<br>The cow wasn't being rude. The cow wasn't ignoring him.<br>The cow simply <em>could not</em> understand music at all.</div>
-                        <div class="story-bilingual">
-                            <div class="story-paragraph">
+                <div class="front spread-right" style="background-image: url('images/01_dui_niu_tan_qin/01_beat5.png');">
+                    <div class="story-overlay pos-top">
+                        <div class="text-content">
+                            <div class="lang-en">Until finally, Gong Mingyi set down his lute. He looked at the cow. The cow blinked at him slowly.<br>And then, he understood.<br>The cow wasn't being rude. The cow wasn't ignoring him.<br>The cow simply <em>could not</em> understand music at all.</div>
+                            <div class="story-bilingual">
+                                <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Zuìzhōng,</div><div class="lang-cn">最终，</div></div>
     <div class="sentence-pair"><div class="lang-py">Gōng</div><div class="lang-cn">公</div></div>
     <div class="sentence-pair"><div class="lang-py">Míngyí</div><div class="lang-cn">明仪</div></div>
@@ -1119,23 +1155,22 @@
     <div class="sentence-pair"><div class="lang-py">dǒng</div><div class="lang-cn">懂</div></div>
     <div class="sentence-pair"><div class="lang-py">yīnyuè.</div><div class="lang-cn">音乐。</div></div>
 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="images/01_dui_niu_tan_qin/01_beat6.png" alt="Story Beat 6">
-                    </div>
+                <div class="back spread-left" style="background-image: url('images/01_dui_niu_tan_qin/01_beat6.png');">
                 </div>
             </div>
 
             <!-- Leaf 7: Beat 6 Text / Idiom Details -->
             <div class="paper" id="p7">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">And ever since then, when someone tries very hard to share something they love (their music, their ideas, or their dreams) with someone who simply cannot understand, people smile and say:<br><br><strong>对牛弹琴</strong><br><em>(duì niú tán qín)</em><br><br><em>Playing music to a cow.</em></div>
-                        <div class="story-bilingual">
-                            <div class="story-paragraph">
+                <div class="front spread-right" style="background-image: url('images/01_dui_niu_tan_qin/01_beat6.png');">
+                    <div class="story-overlay pos-bottom">
+                        <div class="text-content">
+                            <div class="lang-en">And ever since then, when someone tries very hard to share something they love (their music, their ideas, or their dreams) with someone who simply cannot understand, people smile and say:<br><br><strong>对牛弹琴</strong><br><em>(duì niú tán qín)</em><br><br><em>Playing music to a cow.</em></div>
+                            <div class="story-bilingual">
+                                <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Cóng</div><div class="lang-cn">从</div></div>
     <div class="sentence-pair"><div class="lang-py">nà</div><div class="lang-cn">那</div></div>
     <div class="sentence-pair"><div class="lang-py">yǐhòu,</div><div class="lang-cn">以后，</div></div>
@@ -1176,6 +1211,7 @@
     <div class="sentence-pair"><div class="lang-py">tán</div><div class="lang-cn">弹</div></div>
     <div class="sentence-pair"><div class="lang-py">qín.</div><div class="lang-cn">琴</div></div>
 </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -385,37 +385,63 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             box-shadow: none !important;
         }}
 
-        .paper:not(#p7):not(#p8) .back .image-content {{
-            width: 100%;
-            height: 100%;
+        /* Double-page spread styles */
+        .spread-left {{
+            background-size: 200% 100% !important;
+            background-position: left center !important;
+            background-repeat: no-repeat !important;
         }}
 
-        .paper:not(#p7):not(#p8) .back .image-content img {{
-            width: 100%;
-            height: 100%;
-            max-width: 100% !important;
-            max-height: 100% !important;
-            object-fit: cover !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-            border: none !important;
+        .spread-right {{
+            background-size: 200% 100% !important;
+            background-position: right center !important;
+            background-repeat: no-repeat !important;
+            position: relative;
         }}
 
-        /* Clean white layout for right story pages (p2-p7 front) */
+        /* Clean full-bleed layout for right story pages (p2-p7 front) */
         .paper:not(#p1):not(#p8) .front {{
-            background-color: #ffffff !important;
             border: none !important;
             border-radius: 0 !important;
             box-shadow: none !important;
-            padding: 0 !important; /* Let text-content handle padding */
+            padding: 0 !important;
+        }}
+
+        /* Story Text Overlays on top of the right spread */
+        .story-overlay {{
+            position: absolute;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 10;
+        }}
+
+        .story-overlay.pos-bottom {{
+            bottom: 0;
+            padding: 50px 32px 30px 32px;
+            background: linear-gradient(to top, 
+                rgba(247, 245, 238, 0.98) 0%, 
+                rgba(247, 245, 238, 0.85) 65%, 
+                rgba(247, 245, 238, 0) 100%
+            );
+        }}
+
+        .story-overlay.pos-top {{
+            top: 0;
+            padding: 50px 32px 50px 32px;
+            background: linear-gradient(to bottom, 
+                rgba(247, 245, 238, 0.98) 0%, 
+                rgba(247, 245, 238, 0.85) 65%, 
+                rgba(247, 245, 238, 0) 100%
+            );
         }}
 
         .paper:not(#p1):not(#p8) .text-content {{
-            height: 100%;
+            height: auto !important;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center vertically to distribute space safely */
-            padding: 50px 32px 30px 32px; /* Comfortably centered with more top breathing room */
+            justify-content: center;
+            padding: 0 !important; /* Managed by story-overlay */
             box-sizing: border-box;
         }}
 
@@ -715,6 +741,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 position: relative !important;
             }}
 
+            .spread-left {{
+                background-size: cover !important;
+                background-position: center !important;
+            }}
+
+            .spread-right {{
+                background-image: none !important;
+                background-color: #ffffff !important;
+            }}
+
+            .story-overlay {{
+                position: static !important;
+                background: none !important;
+                padding: 0 !important;
+            }}
+
             .book-container {{
                 perspective: none;
                 height: auto;
@@ -811,105 +853,99 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="{beat1_img}" alt="Story Beat 1">
-                    </div>
+                <div class="back spread-left" style="background-image: url('{beat1_img}');">
                 </div>
             </div>
 
             <!-- Leaf 2: Beat 1 Text / Beat 2 Image -->
             <div class="paper" id="p2">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">{beat1_en}</div>
-                        <div class="story-bilingual">
-                            {beat1_paired}
+                <div class="front spread-right" style="background-image: url('{beat1_img}');">
+                    <div class="story-overlay {beat1_pos_class}">
+                        <div class="text-content">
+                            <div class="lang-en">{beat1_en}</div>
+                            <div class="story-bilingual">
+                                {beat1_paired}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="{beat2_img}" alt="Story Beat 2">
-                    </div>
+                <div class="back spread-left" style="background-image: url('{beat2_img}');">
                 </div>
             </div>
 
             <!-- Leaf 3: Beat 2 Text / Beat 3 Image -->
             <div class="paper" id="p3">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">{beat2_en}</div>
-                        <div class="story-bilingual">
-                            {beat2_paired}
+                <div class="front spread-right" style="background-image: url('{beat2_img}');">
+                    <div class="story-overlay {beat2_pos_class}">
+                        <div class="text-content">
+                            <div class="lang-en">{beat2_en}</div>
+                            <div class="story-bilingual">
+                                {beat2_paired}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="{beat3_img}" alt="Story Beat 3">
-                    </div>
+                <div class="back spread-left" style="background-image: url('{beat3_img}');">
                 </div>
             </div>
 
             <!-- Leaf 4: Beat 3 Text / Beat 4 Image -->
             <div class="paper" id="p4">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">{beat3_en}</div>
-                        <div class="story-bilingual">
-                            {beat3_paired}
+                <div class="front spread-right" style="background-image: url('{beat3_img}');">
+                    <div class="story-overlay {beat3_pos_class}">
+                        <div class="text-content">
+                            <div class="lang-en">{beat3_en}</div>
+                            <div class="story-bilingual">
+                                {beat3_paired}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="{beat4_img}" alt="Story Beat 4">
-                    </div>
+                <div class="back spread-left" style="background-image: url('{beat4_img}');">
                 </div>
             </div>
 
             <!-- Leaf 5: Beat 4 Text / Beat 5 Image -->
             <div class="paper" id="p5">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">{beat4_en}</div>
-                        <div class="story-bilingual">
-                            {beat4_paired}
+                <div class="front spread-right" style="background-image: url('{beat4_img}');">
+                    <div class="story-overlay {beat4_pos_class}">
+                        <div class="text-content">
+                            <div class="lang-en">{beat4_en}</div>
+                            <div class="story-bilingual">
+                                {beat4_paired}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="{beat5_img}" alt="Story Beat 5">
-                    </div>
+                <div class="back spread-left" style="background-image: url('{beat5_img}');">
                 </div>
             </div>
 
             <!-- Leaf 6: Beat 5 Text / Beat 6 Image -->
             <div class="paper" id="p6">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">{beat5_en}</div>
-                        <div class="story-bilingual">
-                            {beat5_paired}
+                <div class="front spread-right" style="background-image: url('{beat5_img}');">
+                    <div class="story-overlay {beat5_pos_class}">
+                        <div class="text-content">
+                            <div class="lang-en">{beat5_en}</div>
+                            <div class="story-bilingual">
+                                {beat5_paired}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="back">
-                    <div class="image-content">
-                        <img src="{beat6_img}" alt="Story Beat 6">
-                    </div>
+                <div class="back spread-left" style="background-image: url('{beat6_img}');">
                 </div>
             </div>
 
             <!-- Leaf 7: Beat 6 Text / Idiom Details -->
             <div class="paper" id="p7">
-                <div class="front">
-                    <div class="text-content">
-                        <div class="lang-en">{beat6_en}</div>
-                        <div class="story-bilingual">
-                            {beat6_paired}
+                <div class="front spread-right" style="background-image: url('{beat6_img}');">
+                    <div class="story-overlay {beat6_pos_class}">
+                        <div class="text-content">
+                            <div class="lang-en">{beat6_en}</div>
+                            <div class="story-bilingual">
+                                {beat6_paired}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1414,10 +1450,15 @@ def main():
         paired_html = pair_cn_py(cn_text, py_text)
         en_formatted = clean_markdown_formatting(en_text).replace("\n", "<br>")
 
+        # Determine overlay positioning class (top vs bottom) based on layout balance
+        # Beats 3, 4, 5 place the cow on the right/bottom-right, so text is positioned at the top.
+        pos_class = "pos-top" if idx in [3, 4, 5] else "pos-bottom"
+
         beat_vars[f"beat{idx}_img"] = img_path
         beat_vars[f"beat{idx}_label"] = label
         beat_vars[f"beat{idx}_en"] = en_formatted
         beat_vars[f"beat{idx}_paired"] = paired_html
+        beat_vars[f"beat{idx}_pos_class"] = pos_class
 
     # Parse Idiom
     idiom_sec = extract_section("The Idiom / 成语", content)
