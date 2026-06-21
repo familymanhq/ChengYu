@@ -189,20 +189,21 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .book.open::after {{
             content: '';
             position: absolute;
-            width: 24px;
+            width: 10px;
             height: 100%;
             left: 50%;
             top: 0;
             transform: translateX(-50%);
             background: linear-gradient(to right, 
-                rgba(0,0,0,0.07) 0%, 
-                rgba(0,0,0,0.02) 20%, 
-                rgba(0,0,0,0.14) 50%, 
-                rgba(0,0,0,0.02) 80%, 
-                rgba(0,0,0,0.07) 100%
+                rgba(0,0,0,0.03) 0%, 
+                rgba(0,0,0,0.01) 30%, 
+                rgba(0,0,0,0.05) 50%, 
+                rgba(0,0,0,0.01) 70%, 
+                rgba(0,0,0,0.03) 100%
             );
             z-index: 105;
             pointer-events: none;
+            mix-blend-mode: multiply;
         }}
 
         /* Paper sheet / leaf */
@@ -214,7 +215,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             right: 0;
             transform-origin: left center;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
             user-select: none;
         }}
