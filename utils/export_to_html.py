@@ -388,13 +388,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         /* Double-page spread styles */
         .spread-left {{
-            background-size: 200% 100% !important;
+            background-size: 200% auto !important;
             background-position: left center !important;
             background-repeat: no-repeat !important;
         }}
 
         .spread-right {{
-            background-size: 200% 100% !important;
+            background-size: 200% auto !important;
             background-position: right center !important;
             background-repeat: no-repeat !important;
             position: relative;
