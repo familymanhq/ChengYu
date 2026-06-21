@@ -384,13 +384,13 @@
         /* Double-page spread styles */
         .spread-left {
             background-size: 200% auto !important;
-            background-position: left center !important;
+            background-position: left bottom !important;
             background-repeat: no-repeat !important;
         }
 
         .spread-right {
             background-size: 200% auto !important;
-            background-position: right center !important;
+            background-position: right bottom !important;
             background-repeat: no-repeat !important;
             position: relative;
         }
@@ -406,30 +406,29 @@
         /* Story Text Overlays on top of the right spread */
         .story-overlay {
             position: absolute;
-            left: 0;
-            width: 100%;
+            width: 86%;
+            left: 7%;
             box-sizing: border-box;
             z-index: 10;
+            border-radius: 20px;
+            padding: 30px 24px;
+            /* Soft watercolor-style cloud radial gradient */
+            background: radial-gradient(
+                circle at center,
+                rgba(247, 245, 238, 0.95) 0%,
+                rgba(247, 245, 238, 0.90) 60%,
+                rgba(247, 245, 238, 0.50) 85%,
+                rgba(247, 245, 238, 0) 100%
+            );
+            backdrop-filter: blur(1px);
         }
 
         .story-overlay.pos-bottom {
-            bottom: 0;
-            padding: 50px 32px 30px 32px;
-            background: linear-gradient(to top, 
-                rgba(247, 245, 238, 0.98) 0%, 
-                rgba(247, 245, 238, 0.85) 65%, 
-                rgba(247, 245, 238, 0) 100%
-            );
+            bottom: 24px;
         }
 
         .story-overlay.pos-top {
-            top: 0;
-            padding: 50px 32px 50px 32px;
-            background: linear-gradient(to bottom, 
-                rgba(247, 245, 238, 0.98) 0%, 
-                rgba(247, 245, 238, 0.85) 65%, 
-                rgba(247, 245, 238, 0) 100%
-            );
+            top: 24px;
         }
 
         .paper:not(#p1):not(#p8) .text-content {
@@ -872,19 +871,12 @@
     <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn">他</div></div>
     <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
     <div class="sentence-pair"><div class="lang-py">qínshēng</div><div class="lang-cn">琴声</div></div>
-    <div class="sentence-pair"><div class="lang-py">OS</div><div class="lang-cn">是</div></div>
-    <div class="sentence-pair"><div class="lang-py">version</div><div class="lang-cn">全天</div></div>
-    <div class="sentence-pair"><div class="lang-py">is</div><div class="lang-cn">下</div></div>
-    <div class="sentence-pair"><div class="lang-py">windows.</div><div class="lang-cn">最美 的。</div></div>
-    <div class="sentence-pair"><div class="lang-py">Tā</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">qínshēng</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">shì</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">quán</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">tiānxià</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">zuì</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">měi</div><div class="lang-cn"></div></div>
-    <div class="sentence-pair"><div class="lang-py">de.</div><div class="lang-cn"></div></div>
+    <div class="sentence-pair"><div class="lang-py">shì</div><div class="lang-cn">是</div></div>
+    <div class="sentence-pair"><div class="lang-py">quán</div><div class="lang-cn">全</div></div>
+    <div class="sentence-pair"><div class="lang-py">tiānxià</div><div class="lang-cn">天下</div></div>
+    <div class="sentence-pair"><div class="lang-py">zuì</div><div class="lang-cn">最</div></div>
+    <div class="sentence-pair"><div class="lang-py">měi</div><div class="lang-cn">美</div></div>
+    <div class="sentence-pair"><div class="lang-py">de.</div><div class="lang-cn">的。</div></div>
 </div>
 <div class="story-paragraph">
     <div class="sentence-pair"><div class="lang-py">Měi</div><div class="lang-cn">每</div></div>
@@ -1065,8 +1057,8 @@
     <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
     <div class="sentence-pair"><div class="lang-py">gē,</div><div class="lang-cn">歌</div></div>
     <div class="sentence-pair"><div class="lang-py">bēishāng</div><div class="lang-cn">、悲伤</div></div>
-    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">o</div></div>
-    <div class="sentence-pair"><div class="lang-py">gē,</div><div class="lang-cn">f the zither, 悲伤的歌，</div></div>
+    <div class="sentence-pair"><div class="lang-py">de</div><div class="lang-cn">的</div></div>
+    <div class="sentence-pair"><div class="lang-py">gē,</div><div class="lang-cn">歌，</div></div>
     <div class="sentence-pair"><div class="lang-py">hái</div><div class="lang-cn">还</div></div>
     <div class="sentence-pair"><div class="lang-py">yǒu</div><div class="lang-cn">有</div></div>
     <div class="sentence-pair"><div class="lang-py">guānyú</div><div class="lang-cn">关于</div></div>
@@ -1253,7 +1245,7 @@
                                 <em>Talking about your favorite book to someone who never reads is like 对牛弹琴.</em>
                             </p>
                             <p class="lang-py" style="font-size: 0.85rem; margin: 0 0 4px 0; color: var(--text-secondary); font-style: italic;">
-                                <em>(Gēn yī gè bù ài dú shū de rén tán nǐ zuì xǐhuān de shū, jiǎnzhí shì duì niú tán qín.)</em>
+                                <em>(Gēn yī gè bù ài dú shū de rén tán nǐ zuì xǐhuān de shū, jiǎnzhí – shì duì niú tán qín.)</em>
                             </p>
                             <p class="lang-cn" style="font-size: 1.15rem; margin: 0; font-weight: 700; color: var(--text-primary); line-height: 1.4;">
                                 跟一个不爱读书的人谈你最喜欢的书，简直是<span style="color: var(--accent-red);">对牛弹琴</span>。

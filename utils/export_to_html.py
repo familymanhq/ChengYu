@@ -389,13 +389,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* Double-page spread styles */
         .spread-left {{
             background-size: 200% auto !important;
-            background-position: left center !important;
+            background-position: left bottom !important;
             background-repeat: no-repeat !important;
         }}
 
         .spread-right {{
             background-size: 200% auto !important;
-            background-position: right center !important;
+            background-position: right bottom !important;
             background-repeat: no-repeat !important;
             position: relative;
         }}
@@ -411,30 +411,29 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* Story Text Overlays on top of the right spread */
         .story-overlay {{
             position: absolute;
-            left: 0;
-            width: 100%;
+            width: 86%;
+            left: 7%;
             box-sizing: border-box;
             z-index: 10;
+            border-radius: 20px;
+            padding: 30px 24px;
+            /* Soft watercolor-style cloud radial gradient */
+            background: radial-gradient(
+                circle at center,
+                rgba(247, 245, 238, 0.95) 0%,
+                rgba(247, 245, 238, 0.90) 60%,
+                rgba(247, 245, 238, 0.50) 85%,
+                rgba(247, 245, 238, 0) 100%
+            );
+            backdrop-filter: blur(1px);
         }}
 
         .story-overlay.pos-bottom {{
-            bottom: 0;
-            padding: 50px 32px 30px 32px;
-            background: linear-gradient(to top, 
-                rgba(247, 245, 238, 0.98) 0%, 
-                rgba(247, 245, 238, 0.85) 65%, 
-                rgba(247, 245, 238, 0) 100%
-            );
+            bottom: 24px;
         }}
 
         .story-overlay.pos-top {{
-            top: 0;
-            padding: 50px 32px 50px 32px;
-            background: linear-gradient(to bottom, 
-                rgba(247, 245, 238, 0.98) 0%, 
-                rgba(247, 245, 238, 0.85) 65%, 
-                rgba(247, 245, 238, 0) 100%
-            );
+            top: 24px;
         }}
 
         .paper:not(#p1):not(#p8) .text-content {{

@@ -50,7 +50,6 @@ When he played his lute, birds would stop to listen, and even the wind grew quie
 连风也变得安静了。
 
 *Cóngqián, yǒu yīgè yīnyuèjiā, míng jiào Gōng Míngyí.*
-*Tā de qínshēng OS version is windows.
 *Tā de qínshēng shì quán tiānxià zuì měi de.*
 
 *Měi dāng tā tán qín,*
@@ -112,7 +111,7 @@ Until one day, Gong Mingyi walked past a big yellow cow grazing alone in a quiet
 *kāishǐ tánzòu tā zuì náshǒu de qǔzi.*
 
 🎨 **Image prompt (Gemini):**
-"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) stands in the meadow pointing excitedly. On the right half, the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) is positioned in the lower-right area grazing quietly. The upper-right portion of the image is kept as clear, open background showing a soft morning sky and rolling hills. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) stands in the green meadow, pointing towards the right, keeping his hand and body fully on the left side of the scene. On the right half, the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) is positioned in the lower-right area grazing quietly. The upper-right portion of the image is kept as clear, open background showing a soft morning sky and rolling hills. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 3 Image](images/01_dui_niu_tan_qin/01_beat3.png)
 
@@ -125,7 +124,7 @@ But the cow never looked up. It just kept chewing grass (*munch, munch, munch*) 
 
 因此，公明仪弹了又弹，弹了又弹。
 他弹奏欢快的曲子，弹奏缓慢的曲子，
-弹奏快乐的歌、悲伤 of the zither, 悲伤的歌，
+弹奏快乐的歌、悲伤的歌，
 还有关于月亮的歌。
 
 可是那头牛从来没有抬起头。
@@ -224,7 +223,7 @@ And ever since then, when someone tries very hard to share something they love (
 **Use it in a sentence:**
 *Talking about your favorite book to someone who never reads is like 对牛弹琴.*
 跟一个不爱读书的人谈你最喜欢的书，简直是对牛弹琴。
-*(Gēn yī gè bù ài dú shū de rén tán nǐ zuì xǐhuān de shū, jiǎnzhí shì duì niú tán qín.)*
+*(Gēn yī gè bù ài dú shū de rén tán nǐ zuì xǐhuān de shū, jiǎnzhí – shì duì niú tán qín.)*
 
 ---
 
