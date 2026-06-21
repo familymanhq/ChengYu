@@ -20,7 +20,7 @@
 ## Title Page / 封面
 
 🎨 **Image prompt (Gemini):**
-"A wide, inviting cover scene: Gong Mingyi — a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither) — walking toward a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns, grazing in a sunny green meadow. He looks eager and hopeful, the guqin held ready. Wide open sky, soft morning light, a sense of anticipation. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A portrait-friendly center-focused picture book illustration: Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) walking cheerfully towards the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) grazing in a sunny green meadow under a wide blue sky. Both Gong Mingyi and the cow are positioned close together in the center of the viewport to fit a portrait-oriented book cover layout. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Cover Image](images/01_dui_niu_tan_qin/01_cover.png)
 
@@ -50,6 +50,7 @@ When he played his lute, birds would stop to listen, and even the wind grew quie
 连风也变得安静了。
 
 *Cóngqián, yǒu yīgè yīnyuèjiā, míng jiào Gōng Míngyí.*
+*Tā de qínshēng OS version is windows.
 *Tā de qínshēng shì quán tiānxià zuì měi de.*
 
 *Měi dāng tā tán qín,*
@@ -57,7 +58,7 @@ When he played his lute, birds would stop to listen, and even the wind grew quie
 *lián fēng yě biàn de ānjìng le.*
 
 🎨 **Image prompt (Gemini):**
-"Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) sits cross-legged under a willow tree, playing his dark wooden guqin. Small colorful birds perch on nearby branches with heads tilted, listening intently. Soft golden afternoon light filtering through leaves. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) sits cross-legged under a willow tree playing his dark wooden guqin. The right half of the image is composed as open background space, showing willow branches silhouetted against a soft morning sky, with a few small colorful birds listening from the branches, and the lower right portion kept clean of characters. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 1 Image](images/01_dui_niu_tan_qin/01_beat1.png)
 
@@ -83,7 +84,7 @@ Everyone stopped to smile and clap.
 *Dàjiā dōu huì tíng xià lái wēixiào, gǔzhǎng.*
 
 🎨 **Image prompt (Gemini):**
-"Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) walking through a bustling ancient Chinese village market, playing his guqin. Fishermen, children, and merchants gather around him, smiling and clapping. Lanterns and market stalls in the background. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) walks through a bustling ancient Chinese market playing his zither, surrounded by smiling merchants and stalls. The right half of the image is composed as open space, showing a quiet ancient Chinese village street path extending into the distance under a warm afternoon sky, with the lower right portion kept clean of characters. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 2 Image](images/01_dui_niu_tan_qin/01_beat2.png)
 
@@ -111,7 +112,7 @@ Until one day, Gong Mingyi walked past a big yellow cow grazing alone in a quiet
 *kāishǐ tánzòu tā zuì náshǒu de qǔzi.*
 
 🎨 **Image prompt (Gemini):**
-"Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) spotting the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns), grazing alone in a green meadow. His face lights up with excitement, his guqin held under one arm. Blue sky with puffy clouds, wide open landscape. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) stands in the meadow pointing excitedly. On the right half, the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) is positioned in the lower-right area grazing quietly. The upper-right portion of the image is kept as clear, open background showing a soft morning sky and rolling hills. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 3 Image](images/01_dui_niu_tan_qin/01_beat3.png)
 
@@ -124,7 +125,7 @@ But the cow never looked up. It just kept chewing grass (*munch, munch, munch*) 
 
 因此，公明仪弹了又弹，弹了又弹。
 他弹奏欢快的曲子，弹奏缓慢的曲子，
-弹奏快乐的歌、悲伤的歌，
+弹奏快乐的歌、悲伤 of the zither, 悲伤的歌，
 还有关于月亮的歌。
 
 可是那头牛从来没有抬起头。
@@ -141,7 +142,7 @@ But the cow never looked up. It just kept chewing grass (*munch, munch, munch*) 
 *shuǎizhe wěibā (shuǎi, shuǎi, shuǎi).*
 
 🎨 **Image prompt (Gemini):**
-"Split illustration showing contrast: on one side, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) plays his guqin with intense passion, eyes closed, swaying with emotion. On the other side, the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) chews grass completely unbothered, one eye half-closed, tail casually swishing mid-motion. Slightly comedic contrast between the two. Meadow setting. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) sits in the grass playing his guqin with intense passion, eyes closed. On the right half, the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) is positioned in the lower-right chewing grass completely unbothered, its tail swishing. The upper-right portion is kept as clear, open sky and distant grassy hills. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 4 Image](images/01_dui_niu_tan_qin/01_beat4.png)
 
@@ -173,7 +174,7 @@ The cow simply *could not* understand music at all.
 *érshì nà tóu niú gēnběn jiù tīng bù dǒng yīnyuè.*
 
 🎨 **Image prompt (Gemini):**
-"Gong Mingyi — a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither) — sits in the grass with a look of quiet realization, his dark wooden guqin resting in his lap. A few steps away, The cow — a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns — stands chewing grass, looking back at him with soft, empty eyes. The scene is quiet and peaceful, with a gentle breeze rustling the meadow grass. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) sits in the grass looking at the cow with quiet realization, zither resting in his lap. On the right half, the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) is positioned in the lower-right standing and looking back at him with soft, empty eyes. The upper-right portion of the image is kept as clear, open morning sky. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 5 Image](images/01_dui_niu_tan_qin/01_beat5.png)
 
@@ -205,7 +206,7 @@ And ever since then, when someone tries very hard to share something they love (
 *Duì niú tán qín.*
 
 🎨 **Image prompt (Gemini):**
-"A quiet, gentle scene at sunset. Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) sits side-by-side with the large cream-colored cow (large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) in the peaceful green meadow. Both of them are looking out towards the distant rolling hills under a soft golden sunset sky. His guqin rests gently on the grass, and he has a peaceful smile. Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, warm lighting, children's picture book art, no text in image."
+"A wide, horizontal landscape picture book illustration: On the left half, Gong Mingyi (a slender young musician in his late 20s with long dark hair tied back, a thin kind youthful face, clean-shaven with no beard or mustache, wearing pale blue and cream flowing robes with a wide ochre sash, carrying a dark wooden guqin (seven-string zither)) sits in the meadow with his zither resting on the grass, looking at the cow (a large cream-colored cow with soft brown patches, gentle dark eyes, and small curved horns) which is standing near him, looking away completely uninterested and chewing grass, ignoring the music. The right half of the image is composed as open background showing rolling hills fading into a soft golden sunset sky, with the bottom right portion kept completely clear of characters. The illustration must fill the entire canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). Soft watercolor illustration in traditional Chinese painting style, warm muted palette of cream, jade green, ochre, and soft red, visible gentle brushstrokes, no text in image."
 
 ![Beat 6 Image](images/01_dui_niu_tan_qin/01_beat6.png)
 

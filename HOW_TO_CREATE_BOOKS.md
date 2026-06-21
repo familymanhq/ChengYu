@@ -144,7 +144,14 @@ This matters because Gemini has no memory between separate image generations —
 
 ## 6. Write the 6 image prompts
 
-One 🎨 prompt per beat, placed right after that beat's pinyin line. Each prompt = scene-specific action + the locked character description(s) + the locked style sentence, pasted in verbatim. End every prompt with `no text` (or `no other text` for the closing title-card image) so Gemini doesn't render words into the illustration.
+One 🎨 prompt per beat, placed right after that beat's pinyin line. Each prompt = scene-specific action + the locked character description(s) + the locked style sentence, pasted in verbatim. 
+
+### Critical Rules for Prompt Writing:
+* **Full-Bleed Formatting (No Letterboxing)**: Always explicitly instruct the generator to fill the canvas from edge to edge (full-bleed, no letterbox margins, no white or cream bars on the top and bottom, no borders). If this is not done, the generator will introduce letterbox bars which ruin the HTML layout.
+* **Left-Page Alignment for Spreads**: For all double-page spread illustrations, all primary character action and subjects must be positioned strictly on the left half of the image (corresponding to the left page of the spread). The right half (corresponding to the right page) must consist only of open background scenery (such as sky, willow branches, or distant hills) to provide clean space for text overlays.
+* **Locked Character Description Verbatim**: Do not just refer to a character by name (e.g. "Gong Mingyi" or "the cow"). You must paste their full, detailed locked descriptions into every single prompt where they appear. This prevents the generator from producing generic archetypes (such as depicting Gong Mingyi as an old sage with a white beard instead of a young zither player, or showing the cow as active and listening instead of completely uninterested).
+
+End every prompt with `no text in image.` (or `no other text in image.` for the closing title-card image) so Gemini doesn't render words into the illustration.
 
 The final beat ("And ever since then…") gets a different *kind* of image — not a story scene, but a title-card: the four characters in bold ink calligraphy, with small cartoon versions of the characters using the same locked descriptions, in the same palette as the rest of the book.
 
